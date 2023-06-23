@@ -170,9 +170,18 @@
 	  }
 
 	  if ( ((score / totalQuestions) * 100).toFixed(2) < 50 ) {
-	  	let sound = new Audio('affirmative.mp3')
-	  	sound.play()
-	  	window.location.href = urlTo;
+		async function playSoundAndRedirect() {
+			let sound = new Audio('affirmative.mp3');
+
+			await new Promise((resolve) => {
+				sound.addEventListener('ended', resolve);
+				sound.play();
+			});
+
+			window.location.href = urlTo;
+		}
+
+		playSoundAndRedirect()
 	  } else {
 	  	window.alert('Could not determine if you are a silater. Please try again!');
 	  	window.location.reload();
